@@ -1,6 +1,10 @@
 class MyArray:
-    def __init__(self) -> None:
-        self.data: list[int] = []
+    def __init__(self, initial_data=None) -> None:  
+        if initial_data is None:
+            self.data = []
+        else:
+            self.data = list(initial_data)
+        
 
     def append(self, value: int) -> None:
         self.data.append(value)
@@ -39,6 +43,14 @@ class MyArray:
         return len(self.data)
 
     def __getitem__(self, index: int) -> int:
+        if isinstance(index, slice):
+            new_array = MyArray()
+            
+            for value in self.data[index]:
+                new_array.append(value)
+                
+            return new_array
+            
         return self.get(index)
 
     def __setitem__(self, index: int, value: int) -> None:
